@@ -497,6 +497,83 @@
     .btn-secondary { background: transparent; border: 1px solid var(--rule); color: var(--ink-soft); }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
     .btn-sm { padding: 6px 12px; font-size: 10px; }
+    .btn-danger {
+      background: var(--danger);
+      border: 1px solid #6f2f28;
+      color: #fff;
+    }
+    .btn-danger:hover:not(:disabled) { background: #6f2f28; }
+    .btn-danger:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .danger-zone {
+      border: 1px solid rgba(139,58,50,.35);
+      background: linear-gradient(180deg, rgba(139,58,50,.06), rgba(139,58,50,.02));
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .danger-zone-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 24px;
+      border-bottom: 1px solid rgba(139,58,50,.2);
+      background: rgba(139,58,50,.08);
+    }
+    .danger-zone-head h2 {
+      margin: 0 0 6px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--danger);
+    }
+    .danger-zone-head p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--ink-soft);
+      max-width: 52ch;
+    }
+    .danger-zone-body { padding: 24px; }
+    .danger-zone-list {
+      margin: 0 0 20px;
+      padding: 0;
+      list-style: none;
+      font-size: 13px;
+    }
+    .danger-zone-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .danger-zone-list li:last-child { border-bottom: none; }
+    .danger-confirm-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--danger);
+      margin-bottom: 8px;
+    }
+    .danger-confirm-input {
+      width: 100%;
+      max-width: 320px;
+      padding: 10px 12px;
+      border: 1px solid rgba(139,58,50,.4);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .danger-confirm-input:focus {
+      outline: none;
+      border-color: var(--danger);
+      box-shadow: 0 0 0 3px rgba(139,58,50,.15);
+    }
     .filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
     .filters input, .filters select, .form-control {
       padding: 9px 12px;

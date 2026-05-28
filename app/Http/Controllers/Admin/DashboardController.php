@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Registration;
+use App\Services\TestDataPurger;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -50,6 +51,9 @@ class DashboardController extends Controller
             ->limit(8)
             ->get();
 
+        $testDataCount = TestDataPurger::count();
+        $testDataPreview = $testDataCount > 0 ? TestDataPurger::preview() : collect();
+
         return view('admin.dashboard', compact(
             'stats',
             'byStatus',
@@ -58,6 +62,8 @@ class DashboardController extends Controller
             'daily',
             'maxDaily',
             'recent',
+            'testDataCount',
+            'testDataPreview',
         ));
     }
 }

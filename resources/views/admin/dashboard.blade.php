@@ -121,4 +121,71 @@
     </table>
   </div>
 </div>
+
+<section class="danger-zone" aria-labelledby="danger-zone-title">
+  <div class="danger-zone-head">
+    <div>
+      <h2 id="danger-zone-title">Danger zone</h2>
+      <p>Permanently delete registrations identified as test data (sample references, demo schools, example.com emails). Real <code>IBD-</code> registrations are not affected unless they match test patterns.</p>
+    </div>
+    @if($testDataCount > 0)
+      <span class="badge badge-cancelled">{{ $testDataCount }} test {{ Str::plural('record', $testDataCount) }}</span>
+    @endif
+  </div>
+  <div class="danger-zone-body">
+    @if($testDataCount === 0)
+      <p style="margin:0;color:var(--ink-soft)">No test registrations found. Nothing to purge.</p>
+    @else
+      <p style="margin:0 0 12px;font-size:13px;color:var(--ink-soft)">
+        <strong>{{ $testDataCount }}</strong> registration(s) will be deleted, including all linked participants. This cannot be undone.
+      </p>
+      @if($testDataPreview->isNotEmpty())
+        <ul class="danger-zone-list">
+          @foreach($testDataPreview as $test)
+            <li>
+              <span><strong>{{ $test->reference }}</strong> — {{ Str::limit($test->school_name, 36) }}</span>
+              <span style="color:var(--ink-soft);white-space:nowrap">{{ $test->created_at->format('d M Y') }}</span>
+            </li>
+          @endforeach
+          @if($testDataCount > $testDataPreview->count())
+            <li style="border:none;padding-top:4px;color:var(--ink-soft)">…and {{ $testDataCount - $testDataPreview->count() }} more</li>
+          @endif
+        </ul>
+      @endif
+      <form method="POST" action="{{ route('admin.test-data.purge') }}" id="purgeTestDataForm" onsubmit="return confirm('Delete {{ $testDataCount }} test registration(s)? This cannot be undone.');">
+        @csrf
+        @method('DELETE')
+        <label class="danger-confirm-label" for="purgeConfirmation">Type <strong>PURGE TEST DATA</strong> to enable</label>
+        <input
+          type="text"
+          id="purgeConfirmation"
+          name="confirmation"
+          class="danger-confirm-input"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="PURGE TEST DATA"
+          value="{{ old('confirmation') }}"
+          aria-describedby="purgeHelp"
+        >
+        <p id="purgeHelp" style="margin:0 0 16px;font-size:12px;color:var(--ink-soft)">Matches: SAMPLE/TEST/DEMO references, demo school names, @example.com emails.</p>
+        @error('confirmation')
+          <p style="margin:0 0 12px;font-size:13px;color:var(--danger)">{{ $message }}</p>
+        @enderror
+        <button type="submit" class="btn btn-danger" id="purgeTestDataBtn" disabled>Purge test data</button>
+      </form>
+      <script>
+        (function () {
+          const input = document.getElementById('purgeConfirmation');
+          const btn = document.getElementById('purgeTestDataBtn');
+          const phrase = 'PURGE TEST DATA';
+          function sync() {
+            btn.disabled = input.value.trim() !== phrase;
+          }
+          input.addEventListener('input', sync);
+          sync();
+        })();
+      </script>
+    @endif
+  </div>
+</section>
 @endsection
