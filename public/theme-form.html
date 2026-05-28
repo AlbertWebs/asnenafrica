@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registration · Inclusive by Design Masterclass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:        #1c1a17;
+    --ink-soft:   #4a4540;
+    --paper:      #f7f3ec;
+    --paper-warm: #efe7d8;
+    --rule:       #c8b89a;
+    --accent:     #8a3a1f;       /* burnt sienna, an African earth tone */
+    --accent-dk:  #6b2c17;
+    --gold:       #b08a3e;
+    --moss:       #4a5a32;
+    --shadow:     0 1px 2px rgba(28,26,23,.06), 0 8px 24px rgba(28,26,23,.08);
+    --shadow-lg:  0 2px 4px rgba(28,26,23,.08), 0 24px 48px rgba(28,26,23,.12);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Subtle paper grain */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(176,138,62,.04) 0, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(138,58,31,.04) 0, transparent 50%);
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 56px 32px 80px;
+  }
+
+  /* ── Letterhead ───────────────────────────────────────── */
+  header.letterhead {
+    text-align: center;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 36px;
+    margin-bottom: 40px;
+  }
+
+  .conveners {
+    font-size: 11px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+
+  .conveners span {
+    display: inline-block;
+    margin: 0 4px;
+  }
+
+  .ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: 14px 0 20px;
+    color: var(--gold);
+    font-size: 13px;
+  }
+
+  .ornament::before,
+  .ornament::after {
+    content: "";
+    height: 1px;
+    width: 60px;
+    background: var(--rule);
+  }
+
+  h1.title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 52px;
+    line-height: 1.05;
+    margin: 0 0 10px;
+    color: var(--ink);
+    letter-spacing: -.01em;
+  }
+
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 21px;
+    color: var(--ink-soft);
+    font-weight: 400;
+    margin-bottom: 22px;
+  }
+
+  .form-label {
+    font-size: 11px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-top: 8px;
+  }
+
+  /* ── Preamble ─────────────────────────────────────────── */
+  .preamble {
+    background: var(--paper-warm);
+    border-left: 3px solid var(--accent);
+    padding: 22px 26px;
+    margin-bottom: 40px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  .preamble strong {
+    color: var(--ink);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  /* ── At-a-Glance ──────────────────────────────────────── */
+  .glance {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    margin-bottom: 48px;
+    border: 1px solid var(--rule);
+    background: #fff;
+  }
+
+  .glance-item {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+  }
+  .glance-item:nth-child(2n) { border-right: none; }
+  .glance-item:nth-last-child(-n+2) { border-bottom: none; }
+
+  .glance-label {
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+
+  .glance-value {
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* ── Form sections ────────────────────────────────────── */
+  section.section {
+    margin-bottom: 44px;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .section-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 500;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .section-sub {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 24px;
+  }
+
+  .field-grid.full > .field { grid-column: 1 / -1; }
+  .field.full { grid-column: 1 / -1; }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  label .req { color: var(--accent); margin-left: 3px; }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  select,
+  textarea {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 11px 14px;
+    transition: border-color .15s, box-shadow .15s;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(138,58,31,.12);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* ── Tier selection ───────────────────────────────────── */
+  .tiers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 24px;
+  }
+
+  .tier {
+    position: relative;
+    padding: 22px 22px 20px;
+    border: 1.5px solid var(--rule);
+    background: #fff;
+    cursor: pointer;
+    transition: all .2s;
+  }
+
+  .tier input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .tier:hover {
+    border-color: var(--gold);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+  }
+
+  .tier.active {
+    border-color: var(--accent);
+    border-width: 1.5px;
+    box-shadow: 0 0 0 3px rgba(138,58,31,.08), var(--shadow);
+  }
+
+  .tier-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .tier-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 6px 0 8px;
+  }
+
+  .tier-price small {
+    font-size: 14px;
+    color: var(--ink-soft);
+    font-weight: 400;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .tier-note {
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  /* ── Participants ─────────────────────────────────────── */
+  .participant {
+    background: #fff;
+    border: 1px solid var(--rule);
+    padding: 22px 22px 14px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .participant-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--rule);
+  }
+
+  .participant-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: .05em;
+  }
+
+  .remove-btn {
+    background: transparent;
+    border: 1px solid var(--rule);
+    color: var(--ink-soft);
+    font-size: 11px;
+    padding: 4px 10px;
+    cursor: pointer;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    transition: all .15s;
+    font-family: 'Inter', sans-serif;
+  }
+  .remove-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .add-participant {
+    width: 100%;
+    background: transparent;
+    border: 1.5px dashed var(--rule);
+    color: var(--accent);
+    padding: 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all .15s;
+    margin-top: 4px;
+  }
+  .add-participant:hover {
+    border-color: var(--accent);
+    background: rgba(138,58,31,.04);
+  }
+
+  /* ── Investment summary ──────────────────────────────── */
+  .summary {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 28px 30px;
+    margin: 32px 0 12px;
+    position: relative;
+  }
+
+  .summary::before {
+    content: "";
+    position: absolute;
+    top: -1px; left: 12px; right: 12px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 6px 0;
+    font-size: 14px;
+  }
+
+  .summary-row.total {
+    border-top: 1px solid rgba(255,255,255,.2);
+    margin-top: 10px;
+    padding-top: 14px;
+  }
+
+  .summary-row.total .summary-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .summary-row.total .summary-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  .summary-label {
+    color: rgba(247,243,236,.7);
+  }
+
+  .summary-val {
+    color: var(--paper);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .eligibility {
+    margin-top: 14px;
+    padding: 10px 14px;
+    font-size: 12px;
+    background: rgba(176,138,62,.15);
+    border-left: 2px solid var(--gold);
+    color: var(--paper);
+    line-height: 1.5;
+  }
+
+  /* ── Checkbox list ───────────────────────────────────── */
+  .check-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .check-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    cursor: pointer;
+  }
+
+  .check-row input[type="checkbox"] {
+    margin-top: 3px;
+    accent-color: var(--accent);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+
+  /* ── Submit ──────────────────────────────────────────── */
+  .actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 36px;
+    align-items: center;
+  }
+
+  button.submit {
+    background: var(--accent);
+    color: var(--paper);
+    border: none;
+    padding: 16px 38px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all .2s;
+    border-radius: 2px;
+  }
+  button.submit:hover {
+    background: var(--accent-dk);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  button.secondary {
+    background: transparent;
+    border: 1px solid var(--rule);
+    color: var(--ink-soft);
+    padding: 16px 24px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all .15s;
+  }
+  button.secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .help-text {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  /* ── Footer ──────────────────────────────────────────── */
+  footer.foot {
+    text-align: center;
+    margin-top: 56px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  footer.foot .ubuntu {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  /* ── Confirmation modal ──────────────────────────────── */
+  .modal-bg {
+    position: fixed;
+    inset: 0;
+    background: rgba(28,26,23,.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+  }
+  .modal-bg.show { display: flex; }
+
+  .modal {
+    background: var(--paper);
+    padding: 44px 40px;
+    max-width: 520px;
+    width: 100%;
+    border-top: 4px solid var(--accent);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .modal h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    margin: 0 0 12px;
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .modal p {
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+    line-height: 1.6;
+  }
+
+  .modal .ref {
+    background: #fff;
+    border: 1px solid var(--rule);
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: var(--accent);
+    text-align: center;
+    letter-spacing: .1em;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 22px;
+  }
+
+  /* ── Responsive ──────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .page { padding: 32px 18px 56px; }
+    h1.title { font-size: 38px; }
+    .field-grid, .glance, .tiers { grid-template-columns: 1fr; }
+    .glance-item { border-right: none; }
+    .section-head { flex-wrap: wrap; }
+    .section-sub { margin-left: 0; }
+  }
+
+  /* Print */
+  @media print {
+    body { background: white; }
+    .actions, .add-participant, .remove-btn { display: none; }
+    .page { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Letterhead -->
+  <header class="letterhead">
+    <div class="conveners">
+      <span>Africa Special Needs Education Network</span> · <span>Acorn Special Tutorials</span>
+    </div>
+    <div class="ornament">❦</div>
+    <h1 class="title">Inclusive by Design</h1>
+    <div class="subtitle">Building Future-Ready Classrooms for Diverse Learners</div>
+    <div class="form-label">Registration · Three-Day Professional Masterclass</div>
+  </header>
+
+  <!-- Preamble -->
+  <div class="preamble">
+    In the spirit of <strong>Ubuntu — “I am because we are”</strong> — we warmly invite your school to journey with us. Kindly complete this form to reserve places for your nominated educators. As cohort numbers are deliberately limited, early registration is encouraged.
+  </div>
+
+  <!-- At-a-Glance -->
+  <div class="glance">
+    <div class="glance-item">
+      <div class="glance-label">Dates</div>
+      <div class="glance-value">14 – 16 July 2026</div>
+    </div>
+    <div class="glance-item">
+      <div class="glance-label">Daily Hours</div>
+      <div class="glance-value">8:30 a.m. – 3:30 p.m.</div>
+    </div>
+    <div class="glance-item">
+      <div class="glance-label">Venue</div>
+      <div class="glance-value">Maison Ubuntu Training &amp; Conference Centre, Dagoretti</div>
+    </div>
+    <div class="glance-item">
+      <div class="glance-label">Final Deadline</div>
+      <div class="glance-value">Friday, 27 June 2026</div>
+    </div>
+  </div>
+
+  <form id="regForm" novalidate>
+
+    <!-- SECTION 1: School Information -->
+    <section class="section">
+      <div class="section-head">
+        <span class="section-num">I.</span>
+        <h2 class="section-title">School Information</h2>
+        <span class="section-sub">The institution registering nominees</span>
+      </div>
+
+      <div class="field-grid">
+        <div class="field full">
+          <label>Name of School <span class="req">*</span></label>
+          <input type="text" name="school_name" required>
+        </div>
+        <div class="field">
+          <label>School Type <span class="req">*</span></label>
+          <select name="school_type" required>
+            <option value="">— Select —</option>
+            <option>Public Primary</option>
+            <option>Public Secondary</option>
+            <option>Private Primary</option>
+            <option>Private Secondary</option>
+            <option>Special Needs School</option>
+            <option>International School</option>
+            <option>Faith-based / Mission</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>County / Region <span class="req">*</span></label>
+          <input type="text" name="county" required>
+        </div>
+        <div class="field full">
+          <label>Postal &amp; Physical Address</label>
+          <input type="text" name="address">
+        </div>
+        <div class="field">
+          <label>School Telephone <span class="req">*</span></label>
+          <input type="tel" name="school_phone" required placeholder="+254…">
+        </div>
+        <div class="field">
+          <label>Official School Email <span class="req">*</span></label>
+          <input type="email" name="school_email" required>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: Lead Contact -->
+    <section class="section">
+      <div class="section-head">
+        <span class="section-num">II.</span>
+        <h2 class="section-title">Lead Contact</h2>
+        <span class="section-sub">Head of School or designated representative</span>
+      </div>
+
+      <div class="field-grid">
+        <div class="field">
+          <label>Full Name <span class="req">*</span></label>
+          <input type="text" name="lead_name" required>
+        </div>
+        <div class="field">
+          <label>Role / Title <span class="req">*</span></label>
+          <input type="text" name="lead_role" required placeholder="e.g. Head Teacher, Director">
+        </div>
+        <div class="field">
+          <label>Mobile Telephone <span class="req">*</span></label>
+          <input type="tel" name="lead_phone" required placeholder="+254…">
+        </div>
+        <div class="field">
+          <label>Email Address <span class="req">*</span></label>
+          <input type="email" name="lead_email" required>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: Registration Tier -->
+    <section class="section">
+      <div class="section-head">
+        <span class="section-num">III.</span>
+        <h2 class="section-title">Registration Tier</h2>
+        <span class="section-sub">Auto-selected based on team size</span>
+      </div>
+
+      <div class="tiers">
+        <label class="tier" data-tier="standard">
+          <input type="radio" name="tier" value="standard" checked>
+          <div class="tier-name">Standard Registration</div>
+          <div class="tier-price">KShs. 25,000 <small>/ participant</small></div>
+          <div class="tier-note">Individual or single-school registrations. Closes Friday, 27 June 2026.</div>
+        </label>
+
+        <label class="tier" data-tier="earlybird">
+          <input type="radio" name="tier" value="earlybird">
+          <div class="tier-name">School-Team Early Bird</div>
+          <div class="tier-price">KShs. 20,000 <small>/ participant</small></div>
+          <div class="tier-note">Teams of three or more from one school. Register by <strong>Friday, 12 June 2026</strong>.</div>
+        </label>
+      </div>
+    </section>
+
+    <!-- SECTION 4: Participants -->
+    <section class="section">
+      <div class="section-head">
+        <span class="section-num">IV.</span>
+        <h2 class="section-title">Nominated Participants</h2>
+        <span class="section-sub">Add one row per nominee</span>
+      </div>
+
+      <div id="participantsList"></div>
+      <button type="button" class="add-participant" id="addParticipantBtn">＋  Add another participant</button>
+    </section>
+
+    <!-- SECTION 5: Accessibility & Dietary -->
+    <section class="section">
+      <div class="section-head">
+        <span class="section-num">V.</span>
+        <h2 class="section-title">Access &amp; Dietary Needs</h2>
+        <span class="section-sub">So we may hold every participant well</span>
+      </div>
+
+      <div class="field-grid full">
+        <div class="field full">
+          <label>Accessibility requirements (mobility, sensory, language)</label>
+          <textarea name="accessibility" placeholder="e.g. Sign language interpretation, wheelchair access, large print materials…"></textarea>
+        </div>
+        <div class="field full">
+          <label>Dietary requirements</label>
+          <textarea name="dietary" placeholder="e.g. Halal, vegetarian, gluten-free, allergies…"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: Payment & Confirmation -->
+    <section class="section">
+      <div class="section-head">
+        <span class="section-num">VI.</span>
+        <h2 class="section-title">Payment &amp; Confirmation</h2>
+      </div>
+
+      <div class="field-grid full">
+        <div class="field full">
+          <label>Preferred Mode of Payment <span class="req">*</span></label>
+          <select name="payment_mode" required>
+            <option value="">— Select —</option>
+            <option>Bank Transfer (school account)</option>
+            <option>M-Pesa Paybill</option>
+            <option>Cheque (in favour of ASNEN / Acorn)</option>
+            <option>Cash on the first day (by prior arrangement)</option>
+          </select>
+          <div class="help-text">Banking and Paybill details will be sent with your confirmation email.</div>
+        </div>
+      </div>
+
+      <!-- Investment Summary -->
+      <div class="summary">
+        <div class="summary-row">
+          <span class="summary-label">Number of participants</span>
+          <span class="summary-val" id="sumCount">0</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Rate per participant</span>
+          <span class="summary-val" id="sumRate">KShs. 25,000</span>
+        </div>
+        <div class="summary-row total">
+          <span class="summary-label">Total Investment</span>
+          <span class="summary-val" id="sumTotal">KShs. 0</span>
+        </div>
+        <div class="eligibility" id="eligibility">Add three or more participants to qualify for the School-Team Early Bird rate (KShs. 20,000 per participant).</div>
+      </div>
+
+      <div class="field full" style="margin-top: 28px;">
+        <div class="check-list">
+          <label class="check-row">
+            <input type="checkbox" name="confirm_authority" required>
+            <span>I confirm that I am authorised by my school to register the participants named above and to commit the school to the indicated investment.</span>
+          </label>
+          <label class="check-row">
+            <input type="checkbox" name="confirm_attendance" required>
+            <span>I understand that all nominated participants will attend the full three-day Masterclass (14 – 16 July 2026) and that places are allocated on a first-confirmed basis.</span>
+          </label>
+          <label class="check-row">
+            <input type="checkbox" name="consent_comms">
+            <span>I consent to receive Masterclass correspondence and ongoing communications from the post-Masterclass professional network of inclusive educators.</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="submit">Submit Registration</button>
+        <button type="button" class="secondary" id="printBtn">Print / Save PDF</button>
+      </div>
+
+      <p class="help-text" style="margin-top: 16px;">On submission, this form will open your email client with the completed registration addressed to the Masterclass Secretariat. You may also print or save it as a PDF and email it as an attachment to <strong>info@asnenafrica.org</strong> or <strong>info@acorn.co.ke</strong>.</p>
+    </section>
+
+  </form>
+
+  <!-- Footer -->
+  <footer class="foot">
+    <div class="ubuntu">“I am because we are.”</div>
+    <div>Masterclass Secretariat</div>
+    <div>info@asnenafrica.org &nbsp;·&nbsp; info@acorn.co.ke</div>
+    <div>+254 703 906 990 &nbsp;·&nbsp; +254 712 652 621</div>
+  </footer>
+
+</div>
+
+<!-- Confirmation Modal -->
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <h2>Thank you</h2>
+    <p>Your registration for <strong>Inclusive by Design</strong> has been prepared. A summary has been opened in your default email application, addressed to the Masterclass Secretariat.</p>
+    <div class="ref" id="refNumber">REF-XXXX</div>
+    <p>Kindly send the email to complete your submission. We will respond within two working days with confirmation and payment details.</p>
+    <div class="modal-actions">
+      <button type="button" class="submit" id="closeModal">Close</button>
+      <button type="button" class="secondary" id="printFromModal">Print this</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const STANDARD_RATE = 25000;
+  const EARLYBIRD_RATE = 20000;
+  const EARLYBIRD_MIN = 3;
+
+  const list = document.getElementById('participantsList');
+  const addBtn = document.getElementById('addParticipantBtn');
+  const sumCount = document.getElementById('sumCount');
+  const sumRate = document.getElementById('sumRate');
+  const sumTotal = document.getElementById('sumTotal');
+  const eligibility = document.getElementById('eligibility');
+  const tiers = document.querySelectorAll('.tier');
+  const tierRadios = document.querySelectorAll('input[name="tier"]');
+
+  let participantCount = 0;
+
+  function fmtKsh(n) {
+    return 'KShs. ' + n.toLocaleString('en-KE');
+  }
+
+  function makeParticipantRow(index) {
+    const div = document.createElement('div');
+    div.className = 'participant';
+    div.dataset.idx = index;
+    div.innerHTML = `
+      <div class="participant-head">
+        <div class="participant-num">Participant ${index}</div>
+        <button type="button" class="remove-btn" onclick="removeParticipant(this)">Remove</button>
+      </div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Full Name <span class="req">*</span></label>
+          <input type="text" name="p_name_${index}" required>
+        </div>
+        <div class="field">
+          <label>Role / Designation <span class="req">*</span></label>
+          <select name="p_role_${index}" required>
+            <option value="">— Select —</option>
+            <option>Head of School</option>
+            <option>Deputy Head</option>
+            <option>Head of Department</option>
+            <option>Special Needs Co-ordinator (SENCO)</option>
+            <option>Classroom Teacher</option>
+            <option>Curriculum Designer</option>
+            <option>Counsellor / Therapist</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Subject / Grade Taught</label>
+          <input type="text" name="p_subject_${index}" placeholder="e.g. Lower Primary, Mathematics">
+        </div>
+        <div class="field">
+          <label>Years of Experience</label>
+          <input type="number" name="p_years_${index}" min="0" max="60">
+        </div>
+        <div class="field">
+          <label>Mobile Telephone <span class="req">*</span></label>
+          <input type="tel" name="p_phone_${index}" required placeholder="+254…">
+        </div>
+        <div class="field">
+          <label>Email Address <span class="req">*</span></label>
+          <input type="email" name="p_email_${index}" required>
+        </div>
+      </div>
+    `;
+    list.appendChild(div);
+  }
+
+  window.removeParticipant = function(btn) {
+    if (participantCount <= 1) {
+      alert('At least one participant is required.');
+      return;
+    }
+    btn.closest('.participant').remove();
+    renumberParticipants();
+    updateSummary();
+  };
+
+  function renumberParticipants() {
+    const items = list.querySelectorAll('.participant');
+    participantCount = items.length;
+    items.forEach((el, i) => {
+      const newIdx = i + 1;
+      el.dataset.idx = newIdx;
+      el.querySelector('.participant-num').textContent = 'Participant ' + newIdx;
+      // Rename field names for consistent submission
+      el.querySelectorAll('[name]').forEach(input => {
+        const oldName = input.name;
+        const base = oldName.replace(/_\d+$/, '');
+        input.name = base + '_' + newIdx;
+      });
+    });
+  }
+
+  function addParticipant() {
+    participantCount++;
+    makeParticipantRow(participantCount);
+    updateSummary();
+  }
+
+  function updateSummary() {
+    const count = list.querySelectorAll('.participant').length;
+    const eligible = count >= EARLYBIRD_MIN;
+
+    // Auto-select appropriate tier based on count
+    if (eligible) {
+      tierRadios[1].checked = true; // earlybird
+    } else {
+      tierRadios[0].checked = true; // standard
+    }
+    syncTierUI();
+
+    const rate = eligible ? EARLYBIRD_RATE : STANDARD_RATE;
+    const total = rate * count;
+
+    sumCount.textContent = count;
+    sumRate.textContent = fmtKsh(rate);
+    sumTotal.textContent = fmtKsh(total);
+
+    if (eligible) {
+      eligibility.style.background = 'rgba(74,90,50,.25)';
+      eligibility.style.borderLeftColor = '#8aa860';
+      eligibility.innerHTML = '✓ This team qualifies for the <strong>School-Team Early Bird</strong> rate. A saving of <strong>' + fmtKsh((STANDARD_RATE - EARLYBIRD_RATE) * count) + '</strong> compared to standard registration.';
+    } else {
+      const needed = EARLYBIRD_MIN - count;
+      eligibility.style.background = 'rgba(176,138,62,.15)';
+      eligibility.style.borderLeftColor = 'var(--gold)';
+      eligibility.innerHTML = 'Add ' + needed + ' more participant' + (needed === 1 ? '' : 's') + ' to qualify for the <strong>School-Team Early Bird</strong> rate (KShs. 20,000 per participant) — register by Friday, 12 June 2026.';
+    }
+  }
+
+  function syncTierUI() {
+    tiers.forEach(t => {
+      const radio = t.querySelector('input[type="radio"]');
+      if (radio.checked) t.classList.add('active');
+      else t.classList.remove('active');
+    });
+  }
+
+  tiers.forEach(t => {
+    t.addEventListener('click', () => {
+      const radio = t.querySelector('input[type="radio"]');
+      radio.checked = true;
+      syncTierUI();
+      updateSummary();
+    });
+  });
+
+  addBtn.addEventListener('click', addParticipant);
+
+  // Start with one participant
+  addParticipant();
+
+  // ── Submission ───────────────────────────────────────
+  document.getElementById('regForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    if (!this.checkValidity()) {
+      this.reportValidity();
+      return;
+    }
+
+    const data = new FormData(this);
+    const school = data.get('school_name');
+    const lead = data.get('lead_name');
+    const tier = data.get('tier');
+    const count = list.querySelectorAll('.participant').length;
+    const rate = tier === 'earlybird' ? EARLYBIRD_RATE : STANDARD_RATE;
+    const total = rate * count;
+
+    // Build email body
+    let body = 'INCLUSIVE BY DESIGN MASTERCLASS — REGISTRATION SUBMISSION\n';
+    body += '═══════════════════════════════════════════════════════\n\n';
+    body += 'SCHOOL INFORMATION\n';
+    body += '──────────────────\n';
+    body += 'School:        ' + data.get('school_name') + '\n';
+    body += 'Type:          ' + data.get('school_type') + '\n';
+    body += 'County:        ' + data.get('county') + '\n';
+    body += 'Address:       ' + (data.get('address') || '—') + '\n';
+    body += 'Phone:         ' + data.get('school_phone') + '\n';
+    body += 'Email:         ' + data.get('school_email') + '\n\n';
+
+    body += 'LEAD CONTACT\n';
+    body += '────────────\n';
+    body += 'Name:          ' + data.get('lead_name') + '\n';
+    body += 'Role:          ' + data.get('lead_role') + '\n';
+    body += 'Mobile:        ' + data.get('lead_phone') + '\n';
+    body += 'Email:         ' + data.get('lead_email') + '\n\n';
+
+    body += 'REGISTRATION TIER\n';
+    body += '─────────────────\n';
+    body += 'Tier:          ' + (tier === 'earlybird' ? 'School-Team Early Bird' : 'Standard Registration') + '\n';
+    body += 'Rate:          ' + fmtKsh(rate) + ' per participant\n';
+    body += 'Participants:  ' + count + '\n';
+    body += 'TOTAL:         ' + fmtKsh(total) + '\n\n';
+
+    body += 'NOMINATED PARTICIPANTS\n';
+    body += '──────────────────────\n';
+    list.querySelectorAll('.participant').forEach((p, i) => {
+      const idx = i + 1;
+      body += '\n  ' + idx + '. ' + (data.get('p_name_' + idx) || '') + '\n';
+      body += '     Role:    ' + (data.get('p_role_' + idx) || '') + '\n';
+      body += '     Subject: ' + (data.get('p_subject_' + idx) || '—') + '\n';
+      body += '     Years:   ' + (data.get('p_years_' + idx) || '—') + '\n';
+      body += '     Mobile:  ' + (data.get('p_phone_' + idx) || '') + '\n';
+      body += '     Email:   ' + (data.get('p_email_' + idx) || '') + '\n';
+    });
+
+    body += '\nACCESS & DIETARY NEEDS\n';
+    body += '──────────────────────\n';
+    body += 'Accessibility: ' + (data.get('accessibility') || '—') + '\n';
+    body += 'Dietary:       ' + (data.get('dietary') || '—') + '\n\n';
+
+    body += 'PAYMENT\n';
+    body += '───────\n';
+    body += 'Mode:          ' + data.get('payment_mode') + '\n\n';
+
+    body += 'CONFIRMATIONS\n';
+    body += '─────────────\n';
+    body += '✓ Authorised to register on behalf of the school\n';
+    body += '✓ Confirms full three-day attendance\n';
+    if (data.get('consent_comms')) body += '✓ Consents to ongoing communications\n';
+
+    body += '\n═══════════════════════════════════════════════════════\n';
+    body += 'Submitted: ' + new Date().toLocaleString('en-KE', {dateStyle:'full', timeStyle:'short'}) + '\n';
+
+    const refNum = 'IBD-' + Date.now().toString(36).toUpperCase().slice(-6);
+    body += 'Reference: ' + refNum + '\n';
+
+    const subject = 'Masterclass Registration — ' + school + ' (' + count + ' participant' + (count===1?'':'s') + ')';
+
+    // Open email client
+    const mailto = 'mailto:info@asnenafrica.org?cc=info@acorn.co.ke'
+      + '&subject=' + encodeURIComponent(subject)
+      + '&body=' + encodeURIComponent(body);
+    window.location.href = mailto;
+
+    // Show confirmation modal
+    document.getElementById('refNumber').textContent = refNum;
+    document.getElementById('modal').classList.add('show');
+  });
+
+  document.getElementById('closeModal').addEventListener('click', () => {
+    document.getElementById('modal').classList.remove('show');
+  });
+
+  document.getElementById('printBtn').addEventListener('click', () => window.print());
+  document.getElementById('printFromModal').addEventListener('click', () => window.print());
+
+})();
+</script>
+
+</body>
+</html>
