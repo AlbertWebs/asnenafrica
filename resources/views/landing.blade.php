@@ -1,10 +1,18 @@
-@verbatim
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Registration · Inclusive by Design Masterclass</title>
+@include('partials.seo-meta', [
+    'title' => 'Register · Inclusive by Design Masterclass',
+    'description' => 'Register your school team for Inclusive by Design — a three-day masterclass in Nairobi (14–16 July 2026) on building future-ready, inclusive classrooms. Hosted by ASNEN and Acorn Special Tutorials.',
+    'canonical' => url('/'),
+    'robots' => 'index, follow',
+])
+@include('partials.seo-event-jsonld', [
+    'eventDescription' => 'Inclusive by Design: a three-day professional masterclass for school leaders and teachers, 14–16 July 2026 at Maison Ubuntu, Nairobi.',
+])
+@verbatim
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
