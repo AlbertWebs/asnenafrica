@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRegistrationRequest;
+use App\Mail\RegistrationReceived;
+use App\Models\PaymentSetting;
 use App\Models\Registration;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -13,13 +17,25 @@ class RegistrationController extends Controller
 {
     public function show(string $reference): View
     {
-        $registration = Registration::where('reference', $reference)->firstOrFail();
+        $registration = Registration::with('participants')
+            ->where('reference', $reference)
+            ->firstOrFail();
 
         $tierLabel = $registration->tier === 'earlybird'
             ? 'School-Team Early Bird'
             : 'Standard Registration';
 
-        return view('thank-you', compact('registration', 'tierLabel'));
+        $paybillOption = PaymentSetting::get('option_paybill', '');
+        $isPaybill = $paybillOption && str_contains($registration->payment_mode, $paybillOption);
+        $paymentDetails = [
+            'paybill_number' => PaymentSetting::get('paybill_number', '522533'),
+            'paybill_account' => PaymentSetting::get('paybill_account_number', '1319601561'),
+            'kcb_name' => PaymentSetting::get('kcb_account_name'),
+            'kcb_number' => PaymentSetting::get('kcb_account_number'),
+            'cheque_payee' => PaymentSetting::get('cheque_payee'),
+        ];
+
+        return view('thank-you', compact('registration', 'tierLabel', 'isPaybill', 'paymentDetails'));
     }
 
     public function store(StoreRegistrationRequest $request): JsonResponse
@@ -53,6 +69,7 @@ class RegistrationController extends Controller
                 'confirm_authority' => true,
                 'confirm_attendance' => true,
                 'consent_comms' => (bool) ($validated['consent_comms'] ?? false),
+                'status' => 'pending',
             ]);
 
             foreach ($participants as $index => $participant) {
@@ -69,8 +86,10 @@ class RegistrationController extends Controller
                 ]);
             }
 
-            return $registration;
+            return $registration->load('participants');
         });
+
+        $this->sendRegistrationConfirmation($registration);
 
         return response()->json([
             'message' => 'Registration submitted successfully.',
@@ -79,5 +98,28 @@ class RegistrationController extends Controller
             'total' => $registration->total_amount,
             'participant_count' => $registration->participant_count,
         ], 201);
+    }
+
+    private function sendRegistrationConfirmation(Registration $registration): void
+    {
+        try {
+            $mail = Mail::to($registration->lead_email);
+
+            if ($registration->school_email !== $registration->lead_email) {
+                $mail->cc($registration->school_email);
+            }
+
+            $secretariat = config('mail.secretariat.address');
+            if ($secretariat) {
+                $mail->bcc($secretariat);
+            }
+
+            $mail->send(new RegistrationReceived($registration));
+        } catch (\Throwable $e) {
+            Log::error('Registration confirmation email failed', [
+                'reference' => $registration->reference,
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 }

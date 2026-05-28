@@ -631,60 +631,6 @@
     margin-bottom: 12px;
   }
 
-  /* ── Confirmation modal ──────────────────────────────── */
-  .modal-bg {
-    position: fixed;
-    inset: 0;
-    background: rgba(28,26,23,.7);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    padding: 20px;
-  }
-  .modal-bg.show { display: flex; }
-
-  .modal {
-    background: var(--paper);
-    padding: 44px 40px;
-    max-width: 520px;
-    width: 100%;
-    border-top: 4px solid var(--accent);
-    box-shadow: var(--shadow-lg);
-  }
-
-  .modal h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 32px;
-    margin: 0 0 12px;
-    color: var(--ink);
-    font-weight: 600;
-  }
-
-  .modal p {
-    color: var(--ink-soft);
-    margin-bottom: 14px;
-    line-height: 1.6;
-  }
-
-  .modal .ref {
-    background: #fff;
-    border: 1px solid var(--rule);
-    padding: 12px 16px;
-    margin: 16px 0;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 18px;
-    color: var(--accent);
-    text-align: center;
-    letter-spacing: .1em;
-  }
-
-  .modal-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 22px;
-  }
-
   /* ── Responsive ──────────────────────────────────────── */
   @media (max-width: 640px) {
     .page { padding: 32px 18px 56px; }
@@ -761,7 +707,7 @@
 </head>
 @endverbatim
 <body>
-<script>window.__REG__ = @json(['csrf' => csrf_token(), 'submitUrl' => route('registrations.store')]);</script>
+<script>window.__REG__ = @json(['csrf' => csrf_token(), 'submitUrl' => route('registrations.store')]); window.__PAYMENT__ = @json($paymentConfig);</script>
 @verbatim
 
 <div class="page">
@@ -949,34 +895,31 @@
           <label>Preferred Mode of Payment <span class="req">*</span></label>
           <select name="payment_mode" id="paymentMode" required>
             <option value="">— Select —</option>
-            <option value="KCB Bank Account — Africa Special Needs Education Network (1319601561)">KCB Bank Account — Africa Special Needs Education Network (1319601561)</option>
-            <option value="M-Pesa Paybill (522533)">M-Pesa Paybill (522533)</option>
-            <option value="Cheque — Africa Special Needs Education Network">Cheque — Africa Special Needs Education Network</option>
           </select>
           <div class="help-text">Payments are made to Africa Special Needs Education Network as follows:</div>
 
           <div id="paymentDetails" class="payment-details">
             <div id="paymentDetailKcb" class="payment-detail-block" hidden>
               <p><strong>KCB Bank Account</strong></p>
-              <p>Account name: Africa Special Needs Education Network<br>
-              Account number: <strong>1319601561</strong></p>
+              <p>Account name: <strong id="kcbAccountName">—</strong><br>
+              Account number: <strong id="kcbAccountNumber">—</strong></p>
             </div>
             <div id="paymentDetailPaybill" class="payment-detail-block" hidden>
               <p><strong>M-Pesa Paybill</strong></p>
               <div class="payment-copy-row">
                 <span class="payment-copy-label">Paybill Number</span>
-                <span class="payment-copy-value">522533</span>
-                <button type="button" class="copy-btn" data-copy="522533">Copy</button>
+                <span class="payment-copy-value" id="paybillNumberDisplay">—</span>
+                <button type="button" class="copy-btn" id="copyPaybillBtn" data-copy="">Copy</button>
               </div>
               <div class="payment-copy-row">
                 <span class="payment-copy-label">Account Number</span>
-                <span class="payment-copy-value">1319601561</span>
-                <button type="button" class="copy-btn" data-copy="1319601561">Copy</button>
+                <span class="payment-copy-value" id="paybillAccountDisplay">—</span>
+                <button type="button" class="copy-btn" id="copyPaybillAccountBtn" data-copy="">Copy</button>
               </div>
             </div>
             <div id="paymentDetailCheque" class="payment-detail-block" hidden>
               <p><strong>Cheque</strong></p>
-              <p>Cheque payable to <strong>Africa Special Needs Education Network</strong>.</p>
+              <p>Cheque payable to <strong id="chequePayeeDisplay">—</strong>.</p>
             </div>
           </div>
         </div>
@@ -1418,11 +1361,40 @@
 
   const paymentModeSelect = document.getElementById('paymentMode');
   const paymentDetails = document.getElementById('paymentDetails');
-  const PAYMENT_BLOCKS = {
-    'KCB Bank Account — Africa Special Needs Education Network (1319601561)': 'paymentDetailKcb',
-    'M-Pesa Paybill (522533)': 'paymentDetailPaybill',
-    'Cheque — Africa Special Needs Education Network': 'paymentDetailCheque',
-  };
+  const PAYMENT_BLOCKS = {};
+
+  function initPaymentFromConfig() {
+    const p = window.__PAYMENT__;
+    if (!p || !p.options) return;
+
+    Object.entries(p.options).forEach(([key, label]) => {
+      if (!label) return;
+      const opt = document.createElement('option');
+      opt.value = label;
+      opt.textContent = label;
+      paymentModeSelect.appendChild(opt);
+      const blockId = key === 'kcb' ? 'paymentDetailKcb' : key === 'paybill' ? 'paymentDetailPaybill' : 'paymentDetailCheque';
+      PAYMENT_BLOCKS[label] = blockId;
+    });
+
+    if (p.kcb) {
+      document.getElementById('kcbAccountName').textContent = p.kcb.name || '—';
+      document.getElementById('kcbAccountNumber').textContent = p.kcb.number || '—';
+    }
+    if (p.paybill) {
+      document.getElementById('paybillNumberDisplay').textContent = p.paybill.number || '—';
+      document.getElementById('paybillAccountDisplay').textContent = p.paybill.account || '—';
+      const copyPaybill = document.getElementById('copyPaybillBtn');
+      const copyAccount = document.getElementById('copyPaybillAccountBtn');
+      copyPaybill.dataset.copy = p.paybill.number || '';
+      copyAccount.dataset.copy = p.paybill.account || '';
+    }
+    if (p.cheque) {
+      document.getElementById('chequePayeeDisplay').textContent = p.cheque.payee || '—';
+    }
+  }
+
+  initPaymentFromConfig();
 
   function updatePaymentDetails() {
     const val = paymentModeSelect.value;

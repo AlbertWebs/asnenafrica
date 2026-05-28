@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\PaymentSetting;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
@@ -136,10 +137,6 @@ class StoreRegistrationRequest extends FormRequest
     /** @return list<string> */
     private function paymentModes(): array
     {
-        return [
-            'KCB Bank Account — Africa Special Needs Education Network (1319601561)',
-            'M-Pesa Paybill (522533)',
-            'Cheque — Africa Special Needs Education Network',
-        ];
+        return PaymentSetting::paymentModeOptions();
     }
 }

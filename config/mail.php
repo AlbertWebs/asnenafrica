@@ -111,8 +111,13 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),
+        'address' => env('MAIL_FROM_ADDRESS', 'info@asnenafrica.org'),
+        'name' => env('MAIL_FROM_NAME', 'Inclusive by Design Masterclass'),
+    ],
+
+    'secretariat' => [
+        'address' => env('MAIL_SECRETARIAT_ADDRESS', 'info@asnenafrica.org'),
+        'name' => env('MAIL_SECRETARIAT_NAME', 'Masterclass Secretariat'),
     ],
 
 ];
