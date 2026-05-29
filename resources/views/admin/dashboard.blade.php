@@ -134,7 +134,7 @@
   </div>
   <div class="danger-zone-body">
     @if($testDataCount === 0)
-      <p style="margin:0;color:var(--ink-soft)">No test registrations found. Nothing to purge.</p>
+      <p style="margin:0 0 20px;color:var(--ink-soft)">No test registrations matched the sample/demo patterns. Use <strong>Purge all registrations</strong> below to delete every registration.</p>
     @else
       <p style="margin:0 0 12px;font-size:13px;color:var(--ink-soft)">
         <strong>{{ $testDataCount }}</strong> registration(s) will be deleted, including all linked participants. This cannot be undone.
@@ -178,6 +178,46 @@
           const input = document.getElementById('purgeConfirmation');
           const btn = document.getElementById('purgeTestDataBtn');
           const phrase = 'PURGE TEST DATA';
+          function sync() {
+            btn.disabled = input.value.trim() !== phrase;
+          }
+          input.addEventListener('input', sync);
+          sync();
+        })();
+      </script>
+    @endif
+
+    @if($stats['registrations'] > 0)
+      <hr style="border:none;border-top:1px solid rgba(139,58,50,.25);margin:28px 0">
+      <h3 style="margin:0 0 8px;font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--danger)">Purge all registrations</h3>
+      <p style="margin:0 0 12px;font-size:13px;color:var(--ink-soft)">
+        Permanently delete <strong>all {{ number_format($stats['registrations']) }} registration(s)</strong>, every participant, and all sent-email logs. Real production data will be removed. This cannot be undone.
+      </p>
+      <form method="POST" action="{{ route('admin.registrations.purge-all') }}" onsubmit="return confirm('Delete ALL {{ $stats['registrations'] }} registration(s)? This cannot be undone.');">
+        @csrf
+        @method('DELETE')
+        <label class="danger-confirm-label" for="purgeAllConfirmation">Type <strong>PURGE ALL DATA</strong> to enable</label>
+        <input
+          type="text"
+          id="purgeAllConfirmation"
+          name="confirmation"
+          class="danger-confirm-input"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="PURGE ALL DATA"
+          value="{{ old('confirmation') }}"
+        >
+        @error('confirmation')
+          <p style="margin:0 0 12px;font-size:13px;color:var(--danger)">{{ $message }}</p>
+        @enderror
+        <button type="submit" class="btn btn-danger" id="purgeAllBtn" disabled>Purge all registrations</button>
+      </form>
+      <script>
+        (function () {
+          const input = document.getElementById('purgeAllConfirmation');
+          const btn = document.getElementById('purgeAllBtn');
+          if (!input || !btn) return;
+          const phrase = 'PURGE ALL DATA';
           function sync() {
             btn.disabled = input.value.trim() !== phrase;
           }

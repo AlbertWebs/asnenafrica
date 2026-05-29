@@ -27,4 +27,23 @@ class TestDataController extends Controller
             ->route('admin.dashboard')
             ->with('success', "Purged {$count} test registration(s) and their participants.");
     }
+
+    public function destroyAll(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'confirmation' => ['required', 'string', 'in:PURGE ALL DATA'],
+        ]);
+
+        $count = TestDataPurger::purgeAll();
+
+        if ($count === 0) {
+            return redirect()
+                ->route('admin.dashboard')
+                ->with('error', 'No registrations found. Nothing was deleted.');
+        }
+
+        return redirect()
+            ->route('admin.dashboard')
+            ->with('success', "Purged all {$count} registration(s), their participants, and email logs.");
+    }
 }

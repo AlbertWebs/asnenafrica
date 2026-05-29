@@ -66,6 +66,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('payment-settings', [PaymentSettingController::class, 'edit'])->name('payment-settings.edit');
         Route::put('payment-settings', [PaymentSettingController::class, 'update'])->name('payment-settings.update');
         Route::delete('test-data', [TestDataController::class, 'destroy'])->name('test-data.purge');
+        Route::delete('registrations/purge-all', [TestDataController::class, 'destroyAll'])->name('registrations.purge-all');
         Route::get('dev-tools', [DevToolsController::class, 'index'])->name('dev-tools.index');
         Route::post('dev-tools/run', [DevToolsController::class, 'run'])->name('dev-tools.run');
     });
