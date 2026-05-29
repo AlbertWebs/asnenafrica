@@ -719,6 +719,12 @@
               <span class="nav-label">Sent emails</span>
             </a>
           </li>
+          <li>
+            <a href="{{ route('admin.dev-tools.index') }}" class="{{ request()->routeIs('admin.dev-tools.*') ? 'active' : '' }}">
+              <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6-7.8 7.8-1.6-1.6a1 1 0 0 0-1.4 0l-2 2a1 1 0 0 0 0 1.4l2.8 2.8a1 1 0 0 0 1.4 0l2-2a1 1 0 0 0 0-1.4l-1.6-1.6 7.8-7.8 1.6 1.6a1 1 0 0 0 1.4 0l2-2a1 1 0 0 0 0-1.4l-2.8-2.8a1 1 0 0 0-1.4 0l-2 2z"/></svg>
+              <span class="nav-label">Dev tools</span>
+            </a>
+          </li>
         </ul>
       </div>
 

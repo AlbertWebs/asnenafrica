@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Admin\DevToolsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PaymentSettingController;
 use App\Http\Controllers\Admin\RegistrationController as AdminRegistrationController;
@@ -65,5 +66,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('payment-settings', [PaymentSettingController::class, 'edit'])->name('payment-settings.edit');
         Route::put('payment-settings', [PaymentSettingController::class, 'update'])->name('payment-settings.update');
         Route::delete('test-data', [TestDataController::class, 'destroy'])->name('test-data.purge');
+        Route::get('dev-tools', [DevToolsController::class, 'index'])->name('dev-tools.index');
+        Route::post('dev-tools/run', [DevToolsController::class, 'run'])->name('dev-tools.run');
     });
 });
