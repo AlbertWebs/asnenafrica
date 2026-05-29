@@ -3,13 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Mail\PaymentConfirmed;
 use App\Models\Registration;
-use App\Models\SentEmail;
+use App\Services\RegistrationEmailService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class RegistrationController extends Controller
@@ -67,14 +64,17 @@ class RegistrationController extends Controller
         $flash = 'Registration updated successfully.';
 
         if ($previousStatus !== 'payment_received' && $newStatus === 'payment_received') {
-            $sent = $this->sendPaymentConfirmation($registration->fresh('participants'), $message);
+            $sent = app(RegistrationEmailService::class)->sendPaymentConfirmed(
+                $registration->fresh('participants'),
+                $message,
+            );
 
             if ($sent) {
                 $registration->update([
                     'payment_confirmation_message' => $message,
                     'payment_confirmed_at' => now(),
                 ]);
-                $flash = 'Registration updated and payment confirmation email sent to all applicants.';
+                $flash = 'Registration updated. Payment confirmation sent to the school contact, and registration confirmed emails sent to all participants.';
             } else {
                 $flash = 'Registration updated, but the payment confirmation email could not be sent. Check the logs.';
             }
@@ -92,62 +92,4 @@ class RegistrationController extends Controller
             'Thank you for your commitment to building future-ready, inclusive classrooms.';
     }
 
-    private function sendPaymentConfirmation(Registration $registration, string $message): bool
-    {
-        $recipients = collect([$registration->lead_email, $registration->school_email])
-            ->merge($registration->participants->pluck('email'))
-            ->filter()
-            ->map(fn (string $email) => strtolower(trim($email)))
-            ->unique()
-            ->values();
-
-        if ($recipients->isEmpty()) {
-            return false;
-        }
-
-        try {
-            $primary = $recipients->first();
-            $cc = $recipients->slice(1)->values()->all();
-
-            $mail = Mail::to($primary);
-
-            if ($cc !== []) {
-                $mail->cc($cc);
-            }
-
-            $secretariat = config('mail.secretariat.address');
-            if ($secretariat) {
-                $mail->bcc($secretariat);
-            }
-
-            $mail->send(new PaymentConfirmed($registration, $message));
-
-            SentEmail::create([
-                'registration_id' => $registration->id,
-                'type' => 'payment_confirmed',
-                'subject' => 'Payment Confirmed — Inclusive by Design ('.$registration->reference.')',
-                'recipients' => $recipients->implode(', '),
-                'status' => SentEmail::STATUS_SUCCESS,
-                'sent_at' => now(),
-            ]);
-
-            return true;
-        } catch (\Throwable $e) {
-            SentEmail::create([
-                'registration_id' => $registration->id,
-                'type' => 'payment_confirmed',
-                'subject' => 'Payment Confirmed — Inclusive by Design ('.$registration->reference.')',
-                'recipients' => $recipients->implode(', '),
-                'status' => SentEmail::STATUS_FAILED,
-                'failure_reason' => $e->getMessage(),
-            ]);
-
-            Log::error('Payment confirmation email failed', [
-                'reference' => $registration->reference,
-                'error' => $e->getMessage(),
-            ]);
-
-            return false;
-        }
-    }
 }

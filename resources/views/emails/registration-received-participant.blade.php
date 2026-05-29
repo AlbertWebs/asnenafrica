@@ -24,16 +24,16 @@
   <tr>
     <td style="padding:28px 32px;">
       <p style="margin:0 0 16px;font-family:Arial,sans-serif;font-size:15px;line-height:1.6;color:#1c1a17;">
-        Dear {{ $registration->lead_name }},
+        Dear {{ $participant->name }},
       </p>
       <p style="margin:0 0 20px;font-family:Arial,sans-serif;font-size:15px;line-height:1.6;color:#4a4540;">
-        Thank you for registering <strong>{{ $registration->school_name }}</strong>. We have received your application and it is <strong>being processed</strong>. We will review it within <strong>two working days</strong> and follow up with payment instructions. Each nominated participant has also been notified that their registration is being processed.
+        Your registration for the Inclusive by Design Masterclass with <strong>{{ $registration->school_name }}</strong> has been received and is <strong>being processed</strong>. The school lead contact will receive payment instructions separately once the application is reviewed.
       </p>
 
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#1c1a17;margin-bottom:24px;">
         <tr>
           <td style="padding:20px 24px;text-align:center;">
-            <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(247,243,236,0.7);">Your reference</p>
+            <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(247,243,236,0.7);">Reference</p>
             <p style="margin:0;font-size:26px;letter-spacing:0.1em;color:#b08a3e;">{{ $registration->reference }}</p>
           </td>
         </tr>
@@ -42,15 +42,10 @@
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #c8b89a;margin-bottom:24px;">
         <tr>
           <td style="padding:12px 16px;font-family:Arial,sans-serif;font-size:13px;border-bottom:1px solid #c8b89a;">
-            <strong style="color:#4a4540;">Participants</strong><br>{{ $registration->participant_count }}
+            <strong style="color:#4a4540;">Your role</strong><br>{{ $participant->role }}
           </td>
           <td style="padding:12px 16px;font-family:Arial,sans-serif;font-size:13px;border-bottom:1px solid #c8b89a;">
-            <strong style="color:#4a4540;">Total investment</strong><br>KShs. {{ number_format($registration->total_amount) }}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" style="padding:12px 16px;font-family:Arial,sans-serif;font-size:13px;">
-            <strong style="color:#4a4540;">Payment method</strong><br>{{ $registration->payment_mode }}
+            <strong style="color:#4a4540;">School</strong><br>{{ $registration->school_name }}
           </td>
         </tr>
       </table>
@@ -58,32 +53,23 @@
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#efe7d8;border-left:3px solid #8a3a1f;margin-bottom:24px;">
         <tr>
           <td style="padding:18px 20px;">
-            <p style="margin:0 0 8px;font-family:Arial,sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#4a4540;">Add to your calendar</p>
+            <p style="margin:0 0 8px;font-family:Arial,sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#4a4540;">Provisional dates</p>
             <p style="margin:0 0 6px;font-size:18px;color:#1c1a17;"><strong>14 – 16 July 2026</strong></p>
             <p style="margin:0;font-family:Arial,sans-serif;font-size:14px;line-height:1.5;color:#4a4540;">
               Daily 8:30 a.m. – 3:30 p.m.<br>
               {{ \App\Services\MasterclassCalendar::VENUE }}
             </p>
             <p style="margin:12px 0 0;font-family:Arial,sans-serif;font-size:13px;line-height:1.5;color:#4a4540;">
-              <strong>Gmail users:</strong> Open the attached <em>Inclusive-by-Design-Masterclass.ics</em> file, or use the calendar button in this email, to add all three masterclass days to Google Calendar.
+              A calendar file is attached so you can save the dates while your registration is processed.
             </p>
           </td>
         </tr>
       </table>
 
-      <p style="margin:0 0 12px;font-family:Arial,sans-serif;font-size:15px;line-height:1.6;color:#4a4540;">
-        <strong>What happens next</strong>
-      </p>
-      <ol style="margin:0 0 20px;padding-left:20px;font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:#4a4540;">
-        <li style="margin-bottom:8px;">The Secretariat will email you confirmation and payment instructions.</li>
-        <li style="margin-bottom:8px;">Complete payment of KShs. {{ number_format($registration->total_amount) }} using your selected method.</li>
-        <li>Ensure all nominated participants are available for the full three-day programme.</li>
-      </ol>
-
       <p style="margin:0;font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:#4a4540;">
-        Questions? Contact the Masterclass Secretariat at
-        <a href="mailto:info@asnenafrica.org" style="color:#8a3a1f;">info@asnenafrica.org</a>
-        or <a href="mailto:info@acorn.co.ke" style="color:#8a3a1f;">info@acorn.co.ke</a>.
+        You will receive a separate confirmation email once payment has been verified and your place is secured.
+        Questions? Contact
+        <a href="mailto:info@asnenafrica.org" style="color:#8a3a1f;">info@asnenafrica.org</a>.
       </p>
     </td>
   </tr>
