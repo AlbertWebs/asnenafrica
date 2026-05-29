@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\PaymentConfirmed;
 use App\Models\Registration;
+use App\Models\SentEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -121,8 +122,26 @@ class RegistrationController extends Controller
 
             $mail->send(new PaymentConfirmed($registration, $message));
 
+            SentEmail::create([
+                'registration_id' => $registration->id,
+                'type' => 'payment_confirmed',
+                'subject' => 'Payment Confirmed — Inclusive by Design ('.$registration->reference.')',
+                'recipients' => $recipients->implode(', '),
+                'status' => SentEmail::STATUS_SUCCESS,
+                'sent_at' => now(),
+            ]);
+
             return true;
         } catch (\Throwable $e) {
+            SentEmail::create([
+                'registration_id' => $registration->id,
+                'type' => 'payment_confirmed',
+                'subject' => 'Payment Confirmed — Inclusive by Design ('.$registration->reference.')',
+                'recipients' => $recipients->implode(', '),
+                'status' => SentEmail::STATUS_FAILED,
+                'failure_reason' => $e->getMessage(),
+            ]);
+
             Log::error('Payment confirmation email failed', [
                 'reference' => $registration->reference,
                 'error' => $e->getMessage(),

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PaymentSettingController;
 use App\Http\Controllers\Admin\RegistrationController as AdminRegistrationController;
+use App\Http\Controllers\Admin\SentEmailController;
 use App\Http\Controllers\Admin\TestDataController;
 use App\Http\Controllers\RegistrationController;
 use App\Models\PaymentSetting;
@@ -60,6 +61,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('registrations', [AdminRegistrationController::class, 'index'])->name('registrations.index');
         Route::get('registrations/{registration}', [AdminRegistrationController::class, 'show'])->name('registrations.show');
         Route::patch('registrations/{registration}', [AdminRegistrationController::class, 'update'])->name('registrations.update');
+        Route::get('sent-emails', [SentEmailController::class, 'index'])->name('sent-emails.index');
         Route::get('payment-settings', [PaymentSettingController::class, 'edit'])->name('payment-settings.edit');
         Route::put('payment-settings', [PaymentSettingController::class, 'update'])->name('payment-settings.update');
         Route::delete('test-data', [TestDataController::class, 'destroy'])->name('test-data.purge');

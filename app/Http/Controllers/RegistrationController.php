@@ -6,6 +6,7 @@ use App\Http\Requests\StoreRegistrationRequest;
 use App\Mail\RegistrationReceived;
 use App\Models\PaymentSetting;
 use App\Models\Registration;
+use App\Models\SentEmail;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -102,6 +103,12 @@ class RegistrationController extends Controller
 
     private function sendRegistrationConfirmation(Registration $registration): void
     {
+        $recipients = collect([$registration->lead_email, $registration->school_email])
+            ->filter()
+            ->map(fn (string $email) => strtolower(trim($email)))
+            ->unique()
+            ->values();
+
         try {
             $mail = Mail::to($registration->lead_email);
 
@@ -115,7 +122,25 @@ class RegistrationController extends Controller
             }
 
             $mail->send(new RegistrationReceived($registration));
+
+            SentEmail::create([
+                'registration_id' => $registration->id,
+                'type' => 'registration_received',
+                'subject' => 'Registration Received — Inclusive by Design ('.$registration->reference.')',
+                'recipients' => $recipients->implode(', '),
+                'status' => SentEmail::STATUS_SUCCESS,
+                'sent_at' => now(),
+            ]);
         } catch (\Throwable $e) {
+            SentEmail::create([
+                'registration_id' => $registration->id,
+                'type' => 'registration_received',
+                'subject' => 'Registration Received — Inclusive by Design ('.$registration->reference.')',
+                'recipients' => $recipients->implode(', '),
+                'status' => SentEmail::STATUS_FAILED,
+                'failure_reason' => $e->getMessage(),
+            ]);
+
             Log::error('Registration confirmation email failed', [
                 'reference' => $registration->reference,
                 'error' => $e->getMessage(),
