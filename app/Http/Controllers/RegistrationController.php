@@ -21,70 +21,67 @@ class RegistrationController extends Controller
             ->where('reference', $reference)
             ->firstOrFail();
 
-        $tierLabel = $registration->tier === 'earlybird'
-            ? 'School-Team Early Bird'
-            : 'Standard Registration';
+        $tierLabel = 'Registration Fee';
 
         $paybillOption = PaymentSetting::get('option_paybill', '');
+        $bankOption = PaymentSetting::get('option_kcb', '');
         $isPaybill = $paybillOption && str_contains($registration->payment_mode, $paybillOption);
+        $isBankTransfer = $bankOption && str_contains($registration->payment_mode, $bankOption);
         $paymentDetails = [
-            'paybill_number' => PaymentSetting::get('paybill_number', '522533'),
-            'paybill_account' => PaymentSetting::get('paybill_account_number', '1319601561'),
-            'kcb_name' => PaymentSetting::get('kcb_account_name'),
-            'kcb_number' => PaymentSetting::get('kcb_account_number'),
+            'bank_name' => PaymentSetting::get('kcb_bank_name', 'Co-operative Bank'),
+            'bank_account_name' => PaymentSetting::get('kcb_account_name'),
+            'bank_account_number' => PaymentSetting::get('kcb_account_number', '01103095242001'),
+            'paybill_number' => PaymentSetting::get('paybill_number', '400200'),
+            'paybill_account' => PaymentSetting::get('paybill_account_number', '01103095242001'),
             'cheque_payee' => PaymentSetting::get('cheque_payee'),
         ];
 
-        return view('thank-you', compact('registration', 'tierLabel', 'isPaybill', 'paymentDetails'));
+        return view('thank-you', compact('registration', 'tierLabel', 'isPaybill', 'isBankTransfer', 'paymentDetails'));
     }
 
     public function store(StoreRegistrationRequest $request): JsonResponse
     {
         $validated = $request->validated();
-        $participants = $validated['participants'];
-        $count = count($participants);
         $rate = $request->rateForTier($validated['tier']);
         $reference = 'IBD-'.strtoupper(Str::random(6));
 
-        $registration = DB::transaction(function () use ($validated, $participants, $count, $rate, $reference) {
+        $registration = DB::transaction(function () use ($validated, $rate, $reference) {
             $registration = Registration::create([
                 'reference' => $reference,
                 'school_name' => $validated['school_name'],
                 'school_type' => $validated['school_type'],
                 'county' => $validated['county'],
                 'address' => $validated['address'] ?? null,
-                'school_phone' => $validated['school_phone'],
-                'school_email' => $validated['school_email'],
-                'lead_name' => $validated['lead_name'],
-                'lead_role' => $validated['lead_role'],
-                'lead_phone' => $validated['lead_phone'],
-                'lead_email' => $validated['lead_email'],
-                'tier' => $validated['tier'],
-                'participant_count' => $count,
+                'school_phone' => $validated['p_phone'],
+                'school_email' => $validated['p_email'],
+                'lead_name' => $validated['p_name'],
+                'lead_role' => $validated['p_role'],
+                'lead_phone' => $validated['p_phone'],
+                'lead_email' => $validated['p_email'],
+                'tier' => 'standard',
+                'participant_count' => 1,
                 'rate_per_participant' => $rate,
-                'total_amount' => $rate * $count,
+                'total_amount' => $rate,
                 'accessibility' => $validated['accessibility'] ?? null,
                 'dietary' => $validated['dietary'] ?? null,
                 'payment_mode' => $validated['payment_mode'],
-                'confirm_authority' => true,
+                'confirm_authority' => false,
                 'confirm_attendance' => true,
                 'consent_comms' => (bool) ($validated['consent_comms'] ?? false),
                 'status' => 'pending',
             ]);
 
-            foreach ($participants as $index => $participant) {
-                $registration->participants()->create([
-                    'position' => $index + 1,
-                    'name' => $participant['name'],
-                    'role' => $participant['role'],
-                    'subject' => $participant['subject'] ?? null,
-                    'years' => isset($participant['years']) && $participant['years'] !== ''
-                        ? (int) $participant['years']
-                        : null,
-                    'phone' => $participant['phone'],
-                    'email' => $participant['email'],
-                ]);
-            }
+            $registration->participants()->create([
+                'position' => 1,
+                'name' => $validated['p_name'],
+                'role' => $validated['p_role'],
+                'subject' => $validated['p_subject'] ?? null,
+                'years' => isset($validated['p_years']) && $validated['p_years'] !== ''
+                    ? (int) $validated['p_years']
+                    : null,
+                'phone' => $validated['p_phone'],
+                'email' => $validated['p_email'],
+            ]);
 
             return $registration->load('participants');
         });
@@ -104,10 +101,6 @@ class RegistrationController extends Controller
     {
         try {
             $mail = Mail::to($registration->lead_email);
-
-            if ($registration->school_email !== $registration->lead_email) {
-                $mail->cc($registration->school_email);
-            }
 
             $secretariat = config('mail.secretariat.address');
             if ($secretariat) {

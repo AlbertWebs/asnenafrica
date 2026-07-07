@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\PaymentConfirmed;
 use App\Models\Registration;
+use App\Services\MasterclassCalendar;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -87,7 +88,7 @@ class RegistrationController extends Controller
     private function defaultPaymentConfirmationMessage(Registration $registration): string
     {
         return "We confirm receipt of your payment of KShs. ".number_format($registration->total_amount)." for the Inclusive by Design Masterclass (reference {$registration->reference}).\n\n".
-            "Your team's places are now secured for 14 – 16 July 2026 at Maison Ubuntu Training & Conference Centre, Dagoretti. We will share any pre-event logistics closer to the date.\n\n".
+            "Your place is now secured for ".MasterclassCalendar::DATE_RANGE_LABEL." at Maison Ubuntu Training & Conference Centre, Dagoretti. We will share any pre-event logistics closer to the date.\n\n".
             'Thank you for your commitment to building future-ready, inclusive classrooms.';
     }
 

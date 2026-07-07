@@ -9,11 +9,15 @@ class MasterclassCalendar
 {
     public const VENUE = 'Maison Ubuntu Training & Conference Centre, Dagoretti, Nairobi';
 
+    public const DATE_RANGE_LABEL = '4 – 6 August 2026';
+
+    public const DAILY_HOURS = '8:30 a.m. – 3:30 p.m.';
+
     /** @var list<array{date: string, label: string}> */
     private const DAYS = [
-        ['date' => '2026-07-14', 'label' => 'Day 1'],
-        ['date' => '2026-07-15', 'label' => 'Day 2'],
-        ['date' => '2026-07-16', 'label' => 'Day 3'],
+        ['date' => '2026-08-04', 'label' => 'Day 1'],
+        ['date' => '2026-08-05', 'label' => 'Day 2'],
+        ['date' => '2026-08-06', 'label' => 'Day 3'],
     ];
 
     public static function icsFor(Registration $registration): string

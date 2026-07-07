@@ -20,9 +20,9 @@ class MasterclassCalendarTest extends TestCase
 
         $this->assertStringContainsString('BEGIN:VCALENDAR', $ics);
         $this->assertStringContainsString('METHOD:PUBLISH', $ics);
-        $this->assertStringContainsString('TZID=Africa/Nairobi:20260714T083000', $ics);
-        $this->assertStringContainsString('TZID=Africa/Nairobi:20260715T083000', $ics);
-        $this->assertStringContainsString('TZID=Africa/Nairobi:20260716T083000', $ics);
+        $this->assertStringContainsString('TZID=Africa/Nairobi:20260804T083000', $ics);
+        $this->assertStringContainsString('TZID=Africa/Nairobi:20260805T083000', $ics);
+        $this->assertStringContainsString('TZID=Africa/Nairobi:20260806T083000', $ics);
         $this->assertSame(3, substr_count($ics, 'BEGIN:VEVENT'));
     }
 }

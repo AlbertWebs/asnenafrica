@@ -27,15 +27,16 @@ Route::get('/', function () {
                 'kcb' => PaymentSetting::get('option_kcb'),
                 'paybill' => PaymentSetting::get('option_paybill'),
                 'cheque' => PaymentSetting::get('option_cheque'),
+                'cash' => PaymentSetting::get('option_cash'),
             ],
-            'kcb' => [
-                'bank' => PaymentSetting::get('kcb_bank_name', 'KCB'),
-                'name' => PaymentSetting::get('kcb_account_name'),
-                'number' => PaymentSetting::get('kcb_account_number'),
+            'bank' => [
+                'name' => PaymentSetting::get('kcb_bank_name', 'Co-operative Bank'),
+                'account_name' => PaymentSetting::get('kcb_account_name'),
+                'account_number' => PaymentSetting::get('kcb_account_number', '01103095242001'),
             ],
             'paybill' => [
-                'number' => PaymentSetting::get('paybill_number'),
-                'account' => PaymentSetting::get('paybill_account_number'),
+                'number' => PaymentSetting::get('paybill_number', '400200'),
+                'account' => PaymentSetting::get('paybill_account_number', '01103095242001'),
             ],
             'cheque' => [
                 'payee' => PaymentSetting::get('cheque_payee'),

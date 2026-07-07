@@ -2,7 +2,7 @@
     $siteName = config('seo.site_name');
     $pageTitle = $title ?? $siteName;
     $fullTitle = str_contains($pageTitle, $siteName) ? $pageTitle : $pageTitle.' · '.$siteName;
-    $description = $description ?? 'Register your school team for the Inclusive by Design three-day masterclass (14–16 July 2026, Nairobi). Presented by ASNEN and Acorn Special Tutorials.';
+    $description = $description ?? 'Register for the Inclusive by Design three-day masterclass (4–6 August 2026, Nairobi). Presented by ASNEN and Acorn Special Tutorials.';
     $canonical = $canonical ?? url()->current();
     $image = $image ?? config('seo.og_image');
     $imageAlt = $imageAlt ?? config('seo.og_image_alt');

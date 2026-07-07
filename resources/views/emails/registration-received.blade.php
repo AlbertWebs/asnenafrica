@@ -27,7 +27,7 @@
         Dear {{ $registration->lead_name }},
       </p>
       <p style="margin:0 0 20px;font-family:Arial,sans-serif;font-size:15px;line-height:1.6;color:#4a4540;">
-        Thank you for registering <strong>{{ $registration->school_name }}</strong>. We have received your application and will review it within <strong>two working days</strong>.
+        Thank you for registering for <strong>Inclusive by Design</strong>. We have received your application and will review it within <strong>two working days</strong>.
       </p>
 
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#1c1a17;margin-bottom:24px;">
@@ -42,14 +42,11 @@
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #c8b89a;margin-bottom:24px;">
         <tr>
           <td style="padding:12px 16px;font-family:Arial,sans-serif;font-size:13px;border-bottom:1px solid #c8b89a;">
-            <strong style="color:#4a4540;">Participants</strong><br>{{ $registration->participant_count }}
-          </td>
-          <td style="padding:12px 16px;font-family:Arial,sans-serif;font-size:13px;border-bottom:1px solid #c8b89a;">
-            <strong style="color:#4a4540;">Total investment</strong><br>KShs. {{ number_format($registration->total_amount) }}
+            <strong style="color:#4a4540;">Registration fee</strong><br>KShs. {{ number_format($registration->total_amount) }}
           </td>
         </tr>
         <tr>
-          <td colspan="2" style="padding:12px 16px;font-family:Arial,sans-serif;font-size:13px;">
+          <td style="padding:12px 16px;font-family:Arial,sans-serif;font-size:13px;">
             <strong style="color:#4a4540;">Payment method</strong><br>{{ $registration->payment_mode }}
           </td>
         </tr>
@@ -59,7 +56,7 @@
         <tr>
           <td style="padding:18px 20px;">
             <p style="margin:0 0 8px;font-family:Arial,sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#4a4540;">Add to your calendar</p>
-            <p style="margin:0 0 6px;font-size:18px;color:#1c1a17;"><strong>14 – 16 July 2026</strong></p>
+            <p style="margin:0 0 6px;font-size:18px;color:#1c1a17;"><strong>{{ \App\Services\MasterclassCalendar::DATE_RANGE_LABEL }}</strong></p>
             <p style="margin:0;font-family:Arial,sans-serif;font-size:14px;line-height:1.5;color:#4a4540;">
               Daily 8:30 a.m. – 3:30 p.m.<br>
               {{ \App\Services\MasterclassCalendar::VENUE }}
@@ -77,7 +74,7 @@
       <ol style="margin:0 0 20px;padding-left:20px;font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:#4a4540;">
         <li style="margin-bottom:8px;">The Secretariat will email you confirmation and payment instructions.</li>
         <li style="margin-bottom:8px;">Complete payment of KShs. {{ number_format($registration->total_amount) }} using your selected method.</li>
-        <li>Ensure all nominated participants are available for the full three-day programme.</li>
+        <li>Ensure you are available for the full three-day programme.</li>
       </ol>
 
       <p style="margin:0;font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:#4a4540;">

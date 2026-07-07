@@ -36,6 +36,7 @@ class PaymentSetting extends Model
             $settings['option_kcb'] ?? null,
             $settings['option_paybill'] ?? null,
             $settings['option_cheque'] ?? null,
+            $settings['option_cash'] ?? null,
         ]));
     }
 

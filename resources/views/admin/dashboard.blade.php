@@ -64,11 +64,11 @@
 
 <div class="grid-2">
   <div class="card">
-    <div class="card-head"><h2>By tier</h2></div>
+    <div class="card-head"><h2>By fee type</h2></div>
     <div class="card-body">
       <ul class="breakdown-list">
-        <li><span>Standard</span><strong>{{ $byTier['standard'] ?? 0 }}</strong></li>
-        <li><span>School-Team Early Bird</span><strong>{{ $byTier['earlybird'] ?? 0 }}</strong></li>
+        <li><span>Registration Fee</span><strong>{{ $byTier['standard'] ?? 0 }}</strong></li>
+        <li><span>Early Bird (legacy)</span><strong>{{ $byTier['earlybird'] ?? 0 }}</strong></li>
       </ul>
     </div>
   </div>
@@ -97,8 +97,8 @@
       <thead>
         <tr>
           <th>Reference</th>
-          <th>School</th>
-          <th>Lead</th>
+          <th>Participant</th>
+          <th>Institution</th>
           <th>Total</th>
           <th>Status</th>
           <th>Date</th>
@@ -108,8 +108,8 @@
         @forelse($recent as $reg)
           <tr>
             <td><a class="link" href="{{ route('admin.registrations.show', $reg) }}">{{ $reg->reference }}</a></td>
+            <td>{{ Str::limit($reg->lead_name, 28) }}</td>
             <td>{{ Str::limit($reg->school_name, 28) }}</td>
-            <td>{{ $reg->lead_name }}</td>
             <td>KShs. {{ number_format($reg->total_amount) }}</td>
             <td><span class="badge badge-{{ $reg->status }}">{{ $reg->statusLabel() }}</span></td>
             <td>{{ $reg->created_at->format('d M Y') }}</td>

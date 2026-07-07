@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 @include('partials.seo-meta', [
     'title' => 'Registration confirmed',
-    'description' => 'Your Inclusive by Design masterclass registration has been received. Save your reference and complete payment to secure your team\'s place.',
+    'description' => 'Your Inclusive by Design masterclass registration has been received. Save your reference and complete payment to secure your place.',
     'canonical' => route('registrations.thank-you', $registration->reference),
     'robots' => 'noindex, nofollow',
 ])
@@ -786,7 +786,7 @@
   </header>
 
   <div class="ubuntu-banner">
-    <q>I am because we are</q> — {{ $registration->school_name }} joins a community building classrooms where every learner belongs.
+    <q>I am because we are</q> — you join a community building classrooms where every learner belongs, representing {{ $registration->school_name }}.
   </div>
 
   <div class="ref-card">
@@ -800,19 +800,15 @@
 
   <div class="summary">
     <div class="summary-item full">
-      <div class="summary-label">School</div>
+      <div class="summary-label">Institution</div>
       <div class="summary-value">{{ $registration->school_name }}</div>
     </div>
     <div class="summary-item">
-      <div class="summary-label">Participants</div>
-      <div class="summary-value">{{ $registration->participant_count }}</div>
-    </div>
-    <div class="summary-item">
-      <div class="summary-label">Registration tier</div>
+      <div class="summary-label">Registration fee</div>
       <div class="summary-value">{{ $tierLabel }}</div>
     </div>
-    <div class="summary-item full">
-      <div class="summary-label">Total investment</div>
+    <div class="summary-item">
+      <div class="summary-label">Fee due</div>
       <div class="summary-value emphasis">KShs. {{ number_format($registration->total_amount) }}</div>
     </div>
     <div class="summary-item full">
@@ -823,7 +819,7 @@
 
   @if($registration->participants->isNotEmpty())
   <div class="participants-card">
-    <h3>Nominated participants</h3>
+    <h3>Your registration details</h3>
     <ul class="participant-list">
       @foreach($registration->participants as $participant)
       <li>
@@ -851,18 +847,26 @@
       <button type="button" class="copy-btn" data-copy="{{ $paymentDetails['paybill_account'] }}">Copy</button>
     </div>
   </div>
+  @elseif($isBankTransfer ?? false)
+  <div class="payment-reminder">
+    <h3>Bank transfer details</h3>
+    <p>Transfer <strong>KShs. {{ number_format($registration->total_amount) }}</strong> to:</p>
+    <p><strong>{{ $paymentDetails['bank_name'] }}</strong><br>
+    {{ $paymentDetails['bank_account_name'] }}<br>
+    Account <strong>{{ $paymentDetails['bank_account_number'] }}</strong></p>
+  </div>
   @elseif(str_contains($registration->payment_mode, 'KCB'))
   <div class="payment-reminder">
     <h3>Bank transfer details</h3>
     <p>Transfer <strong>KShs. {{ number_format($registration->total_amount) }}</strong> to:</p>
-    <p><strong>{{ $paymentDetails['kcb_name'] }}</strong><br>KCB Account <strong>{{ $paymentDetails['kcb_number'] }}</strong></p>
+    <p><strong>{{ $paymentDetails['bank_account_name'] ?? $paymentDetails['bank_name'] }}</strong><br>Account <strong>{{ $paymentDetails['bank_account_number'] }}</strong></p>
   </div>
   @endif
 
   <div class="dates-card">
     <div class="label">Masterclass dates</div>
-    <div class="dates">14 – 16 July 2026</div>
-    <div class="venue">Maison Ubuntu Training &amp; Conference Centre, Dagoretti · 8:30 a.m. – 3:30 p.m.</div>
+    <div class="dates">{{ \App\Services\MasterclassCalendar::DATE_RANGE_LABEL }}</div>
+    <div class="venue">Maison Ubuntu Training &amp; Conference Centre, Dagoretti · {{ \App\Services\MasterclassCalendar::DAILY_HOURS }}</div>
   </div>
 
   <section class="next-steps">
@@ -880,8 +884,8 @@
       </li>
       <li>
         <span class="timeline-num">3</span>
-        <div class="timeline-title">Prepare your team for July</div>
-        <p class="timeline-desc">All {{ $registration->participant_count }} nominated participant{{ $registration->participant_count === 1 ? '' : 's' }} should plan to attend the full three days. We will share logistics closer to the date.</p>
+        <div class="timeline-title">Prepare for August</div>
+        <p class="timeline-desc">Please plan to attend the full three days. We will share logistics closer to the date.</p>
       </li>
     </ol>
   </section>

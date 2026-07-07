@@ -28,8 +28,8 @@ return [
 
     'event' => [
         'name' => 'Inclusive by Design Masterclass',
-        'start' => '2026-07-14',
-        'end' => '2026-07-16',
+        'start' => '2026-08-04',
+        'end' => '2026-08-06',
         'venue' => 'Maison Ubuntu Training & Conference Centre, Dagoretti, Nairobi',
     ],
 

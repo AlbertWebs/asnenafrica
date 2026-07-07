@@ -17,9 +17,9 @@
         @endforeach
       </select>
       <select name="tier">
-        <option value="">All tiers</option>
-        <option value="standard" @selected(request('tier') === 'standard')>Standard</option>
-        <option value="earlybird" @selected(request('tier') === 'earlybird')>Early Bird</option>
+        <option value="">All fee types</option>
+        <option value="standard" @selected(request('tier') === 'standard')>Registration Fee</option>
+        <option value="earlybird" @selected(request('tier') === 'earlybird')>Early Bird (legacy)</option>
       </select>
       <button type="submit" class="btn btn-secondary btn-sm">Filter</button>
       @if(request()->hasAny(['q','status','tier']))
@@ -32,10 +32,10 @@
       <thead>
         <tr>
           <th>Reference</th>
-          <th>School</th>
+          <th>Participant</th>
+          <th>Institution</th>
           <th>County</th>
-          <th>Participants</th>
-          <th>Investment</th>
+          <th>Fee</th>
           <th>Payment</th>
           <th>Status</th>
           <th>Submitted</th>
@@ -46,9 +46,9 @@
         @forelse($registrations as $reg)
           <tr>
             <td><strong>{{ $reg->reference }}</strong></td>
+            <td>{{ Str::limit($reg->lead_name, 24) }}</td>
             <td>{{ Str::limit($reg->school_name, 24) }}</td>
             <td>{{ $reg->county }}</td>
-            <td>{{ $reg->participant_count }}</td>
             <td>KShs. {{ number_format($reg->total_amount) }}</td>
             <td>{{ Str::limit($reg->payment_mode, 22) }}</td>
             <td><span class="badge badge-{{ $reg->status }}">{{ $reg->statusLabel() }}</span></td>

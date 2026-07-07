@@ -2,7 +2,7 @@
 
 @section('title', 'Payment accounts')
 @section('page-title', 'Payment accounts')
-@section('page-subtitle', 'KCB, M-Pesa Paybill, and cheque details shown on the public form')
+@section('page-subtitle', 'Bank transfer, M-Pesa Paybill, cheque, and cash details shown on the public form')
 
 @section('content')
 <p style="color:var(--ink-soft);margin:0 0 24px;max-width:640px">
@@ -18,7 +18,7 @@
       <div class="card-head">
         <h2>
           @if($group === 'options') Registration dropdown labels
-          @elseif($group === 'kcb') KCB bank account
+          @elseif($group === 'kcb') Bank transfer account
           @elseif($group === 'paybill') M-Pesa Paybill
           @elseif($group === 'cheque') Cheque
           @else {{ ucfirst($group) }}
