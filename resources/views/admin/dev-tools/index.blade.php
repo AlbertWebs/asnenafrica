@@ -36,6 +36,14 @@
             Clear Cache
           </button>
         </form>
+
+        <form method="POST" action="{{ route('admin.dev-tools.run') }}">
+          @csrf
+          <input type="hidden" name="command" value="seed_payment_settings">
+          <button type="submit" class="btn btn-secondary" onclick="return confirm('Run php artisan db:seed --class=PaymentSettingsSeeder? This updates payment option labels and account details on the registration form.')">
+            Seed Payment Settings
+          </button>
+        </form>
       </div>
     </div>
   </div>

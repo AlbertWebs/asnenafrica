@@ -18,7 +18,7 @@ class DevToolsController extends Controller
     public function run(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'command' => ['required', 'in:migrate,cache_clear'],
+            'command' => ['required', 'in:migrate,cache_clear,seed_payment_settings'],
         ]);
 
         try {
@@ -26,6 +26,15 @@ class DevToolsController extends Controller
                 Artisan::call('migrate', ['--force' => true]);
 
                 return back()->with('success', 'Migrations ran successfully.'.($output = trim(Artisan::output())) ? "\n\n".$output : '');
+            }
+
+            if ($data['command'] === 'seed_payment_settings') {
+                Artisan::call('db:seed', [
+                    '--class' => 'PaymentSettingsSeeder',
+                    '--force' => true,
+                ]);
+
+                return back()->with('success', 'Payment settings seeded successfully.'.($output = trim(Artisan::output())) ? "\n\n".$output : '');
             }
 
             Artisan::call('optimize:clear');
