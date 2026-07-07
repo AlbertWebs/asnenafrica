@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Registration;
+use App\Models\SentEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
@@ -63,9 +64,26 @@ class TestDataPurger
                 return 0;
             }
 
+            SentEmail::query()->whereIn('registration_id', $ids)->delete();
             Registration::query()->whereIn('id', $ids)->delete();
 
             return $ids->count();
+        });
+    }
+
+    public static function purgeAll(): int
+    {
+        return DB::transaction(function () {
+            $count = Registration::query()->count();
+
+            if ($count === 0) {
+                return 0;
+            }
+
+            SentEmail::query()->delete();
+            Registration::query()->delete();
+
+            return $count;
         });
     }
 }

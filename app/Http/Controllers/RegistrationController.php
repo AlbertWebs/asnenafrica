@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRegistrationRequest;
-use App\Mail\RegistrationReceived;
 use App\Models\PaymentSetting;
 use App\Models\Registration;
+use App\Services\RegistrationEmailService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -86,7 +84,7 @@ class RegistrationController extends Controller
             return $registration->load('participants');
         });
 
-        $this->sendRegistrationConfirmation($registration);
+        app(RegistrationEmailService::class)->sendRegistrationReceived($registration);
 
         return response()->json([
             'message' => 'Registration submitted successfully.',
@@ -95,24 +93,5 @@ class RegistrationController extends Controller
             'total' => $registration->total_amount,
             'participant_count' => $registration->participant_count,
         ], 201);
-    }
-
-    private function sendRegistrationConfirmation(Registration $registration): void
-    {
-        try {
-            $mail = Mail::to($registration->lead_email);
-
-            $secretariat = config('mail.secretariat.address');
-            if ($secretariat) {
-                $mail->bcc($secretariat);
-            }
-
-            $mail->send(new RegistrationReceived($registration));
-        } catch (\Throwable $e) {
-            Log::error('Registration confirmation email failed', [
-                'reference' => $registration->reference,
-                'error' => $e->getMessage(),
-            ]);
-        }
     }
 }
