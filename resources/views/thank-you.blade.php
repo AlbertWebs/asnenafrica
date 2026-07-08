@@ -866,7 +866,7 @@
   <div class="dates-card">
     <div class="label">Masterclass dates</div>
     <div class="dates">{{ \App\Services\MasterclassCalendar::DATE_RANGE_LABEL }}</div>
-    <div class="venue">Maison Ubuntu Training &amp; Conference Centre, Dagoretti · {{ \App\Services\MasterclassCalendar::DAILY_HOURS }}</div>
+    <div class="venue"><a href="{{ \App\Services\MasterclassCalendar::DIRECTIONS_URL }}" target="_blank" rel="noopener" style="color:inherit">{{ \App\Services\MasterclassCalendar::VENUE }}</a> · {{ \App\Services\MasterclassCalendar::DAILY_HOURS }}</div>
   </div>
 
   <section class="next-steps">

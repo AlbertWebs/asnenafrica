@@ -10,7 +10,7 @@
     'robots' => 'index, follow',
 ])
 @include('partials.seo-event-jsonld', [
-    'eventDescription' => 'Inclusive by Design: a three-day professional masterclass for educators, 4–6 August 2026 at Maison Ubuntu, Nairobi.',
+    'eventDescription' => 'Inclusive by Design: a three-day professional masterclass for educators, 4–6 August 2026 at Acorn Special Tutorials.',
 ])
 @verbatim
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -555,7 +555,7 @@
     </div>
     <div class="glance-item full">
       <div class="glance-label">Venue</div>
-      <div class="glance-value">Maison Ubuntu Training &amp; Conference Centre, Dagoretti</div>
+      <div class="glance-value"><a href="https://maps.app.goo.gl/58124JYojX2AT6kj6" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Acorn Special Tutorials</a></div>
     </div>
   </div>
 

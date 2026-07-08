@@ -7,7 +7,9 @@ use Illuminate\Support\Carbon;
 
 class MasterclassCalendar
 {
-    public const VENUE = 'Maison Ubuntu Training & Conference Centre, Dagoretti, Nairobi';
+    public const VENUE = 'Acorn Special Tutorials';
+
+    public const DIRECTIONS_URL = 'https://maps.app.goo.gl/58124JYojX2AT6kj6';
 
     public const DATE_RANGE_LABEL = '4 – 6 August 2026';
 
@@ -74,6 +76,8 @@ class MasterclassCalendar
             'Registration reference: '.$registration->reference,
             'School: '.$registration->school_name,
             'Participants: '.$registration->participant_count,
+            'Venue: '.self::VENUE,
+            'Directions: '.self::DIRECTIONS_URL,
             'Secretariat: info@asnenafrica.org',
         ]));
 
@@ -85,6 +89,7 @@ class MasterclassCalendar
             'DTEND;TZID=Africa/Nairobi:'.$end->format('Ymd\THis'),
             'SUMMARY:'.self::escapeIcs('Inclusive by Design Masterclass — '.$dayLabel),
             'LOCATION:'.self::escapeIcs(self::VENUE),
+            'URL:'.self::DIRECTIONS_URL,
             'DESCRIPTION:'.$description,
             'STATUS:CONFIRMED',
             'SEQUENCE:0',
