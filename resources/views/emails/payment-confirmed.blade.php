@@ -76,6 +76,11 @@
             <p style="margin:12px 0 0;font-family:Arial,sans-serif;font-size:13px;color:#4a4540;">
               A calendar file is attached to add all three days to Google Calendar or Outlook.
             </p>
+            <p style="margin:14px 0 0;">
+              <a href="https://maps.app.goo.gl/58124JYojX2AT6kj6" target="_blank" rel="noopener" style="display:inline-block;background:#8a3a1f;color:#f7f3ec;text-decoration:none;font-family:Arial,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:10px 16px;border-radius:2px;">
+                Get Directions
+              </a>
+            </p>
           </td>
         </tr>
       </table>
