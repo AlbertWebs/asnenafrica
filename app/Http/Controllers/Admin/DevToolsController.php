@@ -33,6 +33,7 @@ class DevToolsController extends Controller
                     '--class' => 'PaymentSettingsSeeder',
                     '--force' => true,
                 ]);
+                \App\Models\PaymentSetting::clearCache();
 
                 return back()->with('success', 'Payment settings seeded successfully.'.($output = trim(Artisan::output())) ? "\n\n".$output : '');
             }

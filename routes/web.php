@@ -23,12 +23,24 @@ Route::get('/sitemap.xml', function () {
 })->name('sitemap');
 
 Route::get('/', function () {
+    $chequeOption = PaymentSetting::get('option_cheque', 'Cheque (written in favour of ASNEN)');
+    $chequePayee = PaymentSetting::get('cheque_payee', 'ASNEN');
+
+    // Keep public wording ASNEN-only (strip any leftover " / Acorn").
+    $chequeOption = preg_replace('/\s*\/\s*Acorn/i', '', (string) $chequeOption);
+    $chequePayee = preg_replace('/\s*\/\s*Acorn/i', '', (string) $chequePayee);
+    $chequePayee = trim($chequePayee) !== '' ? trim($chequePayee) : 'ASNEN';
+
+    if (stripos($chequeOption, 'ASNEN') !== false && stripos($chequeOption, 'favour') === false && stripos($chequeOption, 'favor') === false) {
+        $chequeOption = 'Cheque (written in favour of ASNEN)';
+    }
+
     return view('landing', [
         'paymentConfig' => [
             'options' => [
                 'kcb' => PaymentSetting::get('option_kcb'),
                 'paybill' => PaymentSetting::get('option_paybill'),
-                'cheque' => PaymentSetting::get('option_cheque'),
+                'cheque' => $chequeOption,
                 'cash' => PaymentSetting::get('option_cash'),
             ],
             'bank' => [
@@ -41,7 +53,7 @@ Route::get('/', function () {
                 'account' => PaymentSetting::get('paybill_account_number', '01103095242001'),
             ],
             'cheque' => [
-                'payee' => PaymentSetting::get('cheque_payee'),
+                'payee' => $chequePayee,
             ],
         ],
     ]);

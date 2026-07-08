@@ -32,10 +32,19 @@ class PaymentSetting extends Model
     {
         $settings = static::cached();
 
+        $cheque = $settings['option_cheque'] ?? null;
+        if (is_string($cheque)) {
+            $cheque = preg_replace('/\s*\/\s*Acorn/i', '', $cheque);
+            $cheque = trim((string) $cheque);
+            if ($cheque === '' || (stripos($cheque, 'cheque') !== false && stripos($cheque, 'ASNEN') !== false)) {
+                $cheque = 'Cheque (written in favour of ASNEN)';
+            }
+        }
+
         return array_values(array_filter([
             $settings['option_kcb'] ?? null,
             $settings['option_paybill'] ?? null,
-            $settings['option_cheque'] ?? null,
+            $cheque,
             $settings['option_cash'] ?? null,
         ]));
     }
