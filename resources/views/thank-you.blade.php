@@ -855,11 +855,11 @@
     {{ $paymentDetails['bank_account_name'] }}<br>
     Account <strong>{{ $paymentDetails['bank_account_number'] }}</strong></p>
   </div>
-  @elseif(str_contains($registration->payment_mode, 'KCB'))
+  @elseif(str_contains($registration->payment_mode, 'Bank Transfer') || str_contains($registration->payment_mode, 'Co-operative Bank'))
   <div class="payment-reminder">
     <h3>Bank transfer details</h3>
     <p>Transfer <strong>KShs. {{ number_format($registration->total_amount) }}</strong> to:</p>
-    <p><strong>{{ $paymentDetails['bank_account_name'] ?? $paymentDetails['bank_name'] }}</strong><br>Account <strong>{{ $paymentDetails['bank_account_number'] }}</strong></p>
+    <p><strong>{{ $paymentDetails['bank_name'] }}</strong><br>Account <strong>{{ $paymentDetails['bank_account_number'] }}</strong></p>
   </div>
   @endif
 

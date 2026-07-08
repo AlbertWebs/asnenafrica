@@ -64,6 +64,11 @@
             <p style="margin:12px 0 0;font-family:Arial,sans-serif;font-size:13px;line-height:1.5;color:#4a4540;">
               <strong>Gmail users:</strong> Open the attached <em>Inclusive-by-Design-Masterclass.ics</em> file, or use the calendar button in this email, to add all three masterclass days to Google Calendar.
             </p>
+            <p style="margin:14px 0 0;">
+              <a href="https://maps.app.goo.gl/58124JYojX2AT6kj6" target="_blank" rel="noopener" style="display:inline-block;background:#8a3a1f;color:#f7f3ec;text-decoration:none;font-family:Arial,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:10px 16px;border-radius:2px;">
+                Get Directions
+              </a>
+            </p>
           </td>
         </tr>
       </table>

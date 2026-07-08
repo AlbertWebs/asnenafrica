@@ -690,7 +690,7 @@
           <select name="payment_mode" id="paymentMode" required>
             <option value="">— Select —</option>
           </select>
-          <div class="help-text" id="paymentHelpText">Payment details will appear here once you select a method.</div>
+          <div class="help-text" id="paymentHelpText">Payment details — Co-operative Bank, Paybill No. 400200, Account No. 01103095242001.</div>
         </div>
       </div>
 
@@ -764,7 +764,7 @@
     const p = window.__PAYMENT__;
     const mode = paymentModeSelect.value;
     if (!mode || !p) {
-      paymentHelpText.textContent = 'Payment details will appear here once you select a method.';
+      paymentHelpText.textContent = 'Payment details — Co-operative Bank, Paybill No. 400200, Account No. 01103095242001.';
       return;
     }
 
