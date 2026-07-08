@@ -777,7 +777,7 @@
     } else if (p.options.kcb && mode === p.options.kcb) {
       paymentHelpText.textContent = (bank.name || 'Co-operative Bank') + ', Account No. ' + (bank.account_number || '01103095242001') + (bank.account_name ? ' (' + bank.account_name + ')' : '') + '.';
     } else if (p.options.cheque && mode === p.options.cheque) {
-      paymentHelpText.textContent = 'Cheque payable to ' + (cheque.payee || 'ASNEN / Acorn') + '.';
+      paymentHelpText.textContent = 'Cheque written in favour of ' + (cheque.payee || 'ASNEN') + '.';
     } else if (p.options.cash && mode === p.options.cash) {
       paymentHelpText.textContent = 'Cash payment on the first day is available by prior arrangement with the Secretariat.';
     } else {

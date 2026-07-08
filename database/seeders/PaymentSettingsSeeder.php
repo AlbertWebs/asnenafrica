@@ -15,7 +15,7 @@ class PaymentSettingsSeeder extends Seeder
             ['key' => 'option_paybill', 'label' => 'M-Pesa Paybill option label', 'group' => 'options', 'sort_order' => 2,
                 'value' => 'M-Pesa Paybill'],
             ['key' => 'option_cheque', 'label' => 'Cheque option label', 'group' => 'options', 'sort_order' => 3,
-                'value' => 'Cheque (in favour of ASNEN / Acorn)'],
+                'value' => 'Cheque (written in favour of ASNEN)'],
             ['key' => 'option_cash', 'label' => 'Cash option label', 'group' => 'options', 'sort_order' => 4,
                 'value' => 'Cash on the first day (by prior arrangement)'],
             ['key' => 'kcb_bank_name', 'label' => 'Bank name', 'group' => 'kcb', 'sort_order' => 10, 'value' => 'Co-operative Bank'],
@@ -25,7 +25,7 @@ class PaymentSettingsSeeder extends Seeder
             ['key' => 'paybill_number', 'label' => 'M-Pesa Paybill number', 'group' => 'paybill', 'sort_order' => 20, 'value' => '400200'],
             ['key' => 'paybill_account_number', 'label' => 'M-Pesa account number', 'group' => 'paybill', 'sort_order' => 21, 'value' => '01103095242001'],
             ['key' => 'cheque_payee', 'label' => 'Cheque payee', 'group' => 'cheque', 'sort_order' => 30,
-                'value' => 'ASNEN / Acorn'],
+                'value' => 'ASNEN'],
         ];
 
         foreach ($settings as $setting) {
